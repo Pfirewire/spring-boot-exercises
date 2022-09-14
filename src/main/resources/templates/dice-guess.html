@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head">
+<head th:replace="fragments :: head">
     <meta charset="UTF-8">
     <title>Dice Guess Results</title>
 </head>
 <body>
     <nav th:replace="fragments :: navbar" />
+    <header th:replace="fragments :: header" />
+
     <h1>You guessed: <span th:text="${guess}">[guess]</span></h1>
     <h1>The dice rolls: <span th:text="${diceRolls.toString()}">[roll]</span></h1>
     <h1>Your guess was correct <span th:text="${correctGuesses}"></span> times!</h1>
