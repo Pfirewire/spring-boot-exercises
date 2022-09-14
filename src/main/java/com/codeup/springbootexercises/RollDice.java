@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
@@ -18,11 +20,19 @@ public class RollDice {
 
     @GetMapping("/roll-dice/{guess}")
     public String rollDiceGuess(@PathVariable int guess, Model model) {
-        int diceRoll = ThreadLocalRandom.current().nextInt(1, 7);
-        boolean guessedCorrectly = guess == diceRoll;
-        model.addAttribute("diceRoll", diceRoll);
+        ArrayList<Integer> diceRolls = new ArrayList<>();
+        int correctGuesses = 0;
+        int diceRoll;
+        for(int i = 0; i < 10; i++) {
+            diceRoll = ThreadLocalRandom.current().nextInt(1, 7);
+            if(diceRoll == guess) {
+                correctGuesses++;
+            }
+            diceRolls.add(diceRoll);
+        }
+        model.addAttribute("diceRolls", diceRolls);
         model.addAttribute("guess", guess);
-        model.addAttribute("guessedCorrectly", guessedCorrectly);
+        model.addAttribute("correctGuesses", correctGuesses);
         return "dice-guess";
     }
 }
