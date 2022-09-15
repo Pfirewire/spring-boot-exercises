@@ -29,10 +29,8 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String individualPost(@PathVariable long id, Model model) {
-        List<Post> posts = postDao.findAll();
-        if(id > posts.size()) {
-            model.addAttribute("posts", posts);
-            return "posts/index";
+        if(postDao.findById(id) != null) {
+            return "redirect:/posts";
         }
         Post post = postDao.getById(id);
         model.addAttribute("post", post);
