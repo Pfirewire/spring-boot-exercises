@@ -25,6 +25,7 @@ public class PostController {
     @GetMapping("/posts")
     public String postsIndex(Model model) {
         List<Post> posts = postDao.findAll();
+        System.out.println(posts);
         model.addAttribute("posts", posts);
         return "posts/index";
     }
@@ -47,6 +48,7 @@ public class PostController {
     @PostMapping("/posts/create")
     public String createPostPost(@Param("title") String title, @Param("body") String body, Model model) {
         Post post = new Post(title, body);
+        post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
         model.addAttribute("post", post);
         return "posts/show";
