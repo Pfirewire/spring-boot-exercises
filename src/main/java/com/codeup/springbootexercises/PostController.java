@@ -41,13 +41,18 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String createPostGet() {
+    public String showCreatePostForm(Model model) {
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPostPost(@Param("title") String title, @Param("body") String body, Model model) {
-        Post post = new Post(title, body);
+    public String createPost(
+            @Param("title") String title,
+            @Param("body") String body, Model model) {
+        Post post = new Post();
+        post.setTitle(title);
+        post.setBody(body);
         post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
         model.addAttribute("post", post);
