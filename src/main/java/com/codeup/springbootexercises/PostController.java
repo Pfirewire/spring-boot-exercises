@@ -3,10 +3,7 @@ package com.codeup.springbootexercises;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +44,9 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(
-            @Param("title") String title,
-            @Param("body") String body, Model model) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setBody(body);
+    public String createPost(@ModelAttribute Post post) {
         post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
-        model.addAttribute("post", post);
-        return "posts/show";
+        return "redirect:/posts";
     }
 }
