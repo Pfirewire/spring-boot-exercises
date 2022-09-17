@@ -20,6 +20,7 @@
                     </h2>
                     <p style="white-space: pre-line" th:text="${post.body}" class="card-text bg-dark text-light rounded p-3"></p>
                     <a href="#" class="card-link" th:text="${post.user.username}"></a>
+                    <a th:href="@{/posts/{id}/edit (id=${post.id})}">Edit Post</a>
                 </div>
             </div>
         </div>

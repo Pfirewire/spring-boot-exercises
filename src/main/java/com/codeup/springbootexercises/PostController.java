@@ -49,4 +49,10 @@ public class PostController {
         postDao.save(post);
         return "redirect:/posts";
     }
+
+    @GetMapping("/posts/{id}/edit")
+    public String showEditPostForm(@PathVariable Long id, Model model) {
+        model.addAttribute("post", postDao.findById(id));
+        return "posts/edit";
+    }
 }
