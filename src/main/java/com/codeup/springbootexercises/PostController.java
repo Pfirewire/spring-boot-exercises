@@ -2,6 +2,7 @@ package com.codeup.springbootexercises;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,12 @@ public class PostController {
 
     private final PostRepository postDao;
     private final UserRepository userDao;
+    private final EmailService emailService;
 
-    public PostController(PostRepository postDao, UserRepository userDao) {
+    public PostController(PostRepository postDao, UserRepository userDao, EmailService emailService) {
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
     @GetMapping("/posts")
@@ -47,6 +50,7 @@ public class PostController {
     public String createPost(@ModelAttribute Post post) {
         post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
+        emailService.prepareAndSend(post, "Post Created", "A new post has been successfully created");
         return "redirect:/posts";
     }
 
@@ -61,6 +65,9 @@ public class PostController {
     public String editPost(@ModelAttribute Post post) {
         post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
+        emailService.prepareAndSend(post, "Post Edited", "Your post has been successfully edited.");
         return ("redirect:/posts/" + post.getId());
     }
+
+
 }
