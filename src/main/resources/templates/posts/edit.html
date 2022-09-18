@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head">
     <meta charset="UTF-8">
-    <title id="pageTitle">Create Ad</title>
+    <title id="pageTitle">Edit Ad</title>
 </head>
 <body>
 <nav th:replace="fragments :: navbar" />
@@ -12,7 +12,7 @@
     <div class="card w-75 text-center p-3" style="background-color: #6e6e6e;">
         <form th:action="@{/posts/{id}/edit (id=${post.id})}" th:method="post" th:object="${post}">
             <div class="form-group">
-                <input class="form-control mb-3 bg-dark text-light" th:field="*{title}" type="text" th:text="${post.getTitle()}">
+                <input class="form-control mb-3 bg-dark text-light" id="postTitle" th:field="*{title}" type="text">
                 <textarea class="form-control mb-3 bg-dark text-light" th:field="*{body}" rows="12" placeholder="Enter the body of your post here" ></textarea>
                 <button type="submit" class="btn btn-dark">Submit</button>
             </div>
