@@ -50,7 +50,13 @@ public class PostController {
     public String createPost(@ModelAttribute Post post) {
         post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
-        emailService.prepareAndSend(post, "Post Created", "A new post has been successfully created");
+        emailService.prepareAndSend(post, "Post Created", "" +
+                "A new post has been successfully created" +
+                "New Post:" +
+                "\n\n" +
+                post.getTitle() +
+                "\n" +
+                post.getBody());
         return "redirect:/posts";
     }
 
@@ -65,7 +71,14 @@ public class PostController {
     public String editPost(@ModelAttribute Post post) {
         post.setUser(userDao.getById(Long.parseLong("1")));
         postDao.save(post);
-        emailService.prepareAndSend(post, "Post Edited", "Your post has been successfully edited.");
+        emailService.prepareAndSend(post, "Post Edited", "" +
+                "Your post has been successfully edited." +
+                "\n" +
+                "New Post:" +
+                "\n\n" +
+                post.getTitle() +
+                "\n" +
+                post.getBody());
         return ("redirect:/posts/" + post.getId());
     }
 
