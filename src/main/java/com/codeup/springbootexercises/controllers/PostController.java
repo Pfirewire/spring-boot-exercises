@@ -1,9 +1,11 @@
 package com.codeup.springbootexercises.controllers;
 
+import com.codeup.springbootexercises.models.User;
 import com.codeup.springbootexercises.services.EmailService;
 import com.codeup.springbootexercises.repositories.PostRepository;
 import com.codeup.springbootexercises.repositories.UserRepository;
 import com.codeup.springbootexercises.models.Post;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +51,7 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
-        post.setUser(userDao.getById(Long.parseLong("1")));
+        post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDao.save(post);
         emailService.prepareAndSend(post, "Post Created", "" +
                 "A new post has been successfully created" +

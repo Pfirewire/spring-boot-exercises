@@ -5,9 +5,7 @@ import com.codeup.springbootexercises.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -21,15 +19,20 @@ public class UserController {
 
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
+        System.out.println("Inside showSignupForm");
         model.addAttribute("user", new User());
         return "users/signup";
     }
 
     @PostMapping("/signup")
-    public String saveUser(@ModelAttribute User user) {
+    public String saveUser(@ModelAttribute User user, @RequestParam(value = "confirmPassword") String confirmPassword) {
         String hash = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hash);
-        userDao.save(user);
-        return "redirect:/login";
+        if(passwordEncoder.matches(confirmPassword, hash)) {
+            user.setPassword(hash);
+            userDao.save(user);
+            return "redirect:/login";
+        } else {
+            return "users/signup";
+        }
     }
 }
