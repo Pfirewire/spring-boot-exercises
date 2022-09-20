@@ -1,12 +1,13 @@
-package com.codeup.springbootexercises;
+package com.codeup.springbootexercises.controllers;
 
-import org.springframework.data.repository.query.Param;
+import com.codeup.springbootexercises.services.EmailService;
+import com.codeup.springbootexercises.repositories.PostRepository;
+import com.codeup.springbootexercises.repositories.UserRepository;
+import com.codeup.springbootexercises.models.Post;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

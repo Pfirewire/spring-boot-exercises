@@ -1,5 +1,6 @@
-package com.codeup.springbootexercises;
+package com.codeup.springbootexercises.services;
 
+import com.codeup.springbootexercises.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;

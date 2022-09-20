@@ -1,4 +1,6 @@
-package com.codeup.springbootexercises;
+package com.codeup.springbootexercises.models;
+
+import com.codeup.springbootexercises.models.User;
 
 import javax.persistence.*;
 

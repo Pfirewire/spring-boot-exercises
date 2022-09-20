@@ -1,4 +1,4 @@
-package com.codeup.springbootexercises;
+package com.codeup.springbootexercises.models;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,6 +27,12 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+    public User (User copy) {
+        this.id = copy.id;
+        this.email = copy.email;
+        this.username = copy.username;
+        this.password = copy.password;
     }
 
 
