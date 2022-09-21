@@ -1,6 +1,8 @@
 package com.codeup.springbootexercises.models;
 
 import com.codeup.springbootexercises.models.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.validation.*;
 
 import javax.persistence.*;
@@ -24,6 +26,7 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "user_id")
     private User user;
 

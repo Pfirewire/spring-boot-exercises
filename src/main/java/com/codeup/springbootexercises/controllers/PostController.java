@@ -111,4 +111,16 @@ public class PostController {
         postDao.delete(post);
         return("redirect:/profile/");
     }
+
+    @GetMapping("/posts.json")
+    public @ResponseBody List<Post> viewAllPostsInJSONFormat() {
+        List<Post> posts = postDao.findAll();
+        return posts;
+    }
+
+    @GetMapping("/posts/ajax")
+    public String viewAllPostsWithAjax() {
+        System.out.println("inside viewAllPostsWithAjax");
+        return "posts/ajax";
+    }
 }

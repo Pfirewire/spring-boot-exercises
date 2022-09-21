@@ -1,5 +1,8 @@
 package com.codeup.springbootexercises.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,8 +19,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonBackReference
     private List<Post> posts;
 
 
