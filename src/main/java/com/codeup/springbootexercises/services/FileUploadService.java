@@ -18,6 +18,7 @@ public class FileUploadService {
 
     public void uploadFile(MultipartFile uploadedFile, Post post, Model model) {
         String fileName = post.getId().toString().concat(uploadedFile.getOriginalFilename());
+        System.out.println(fileName);
         String filePath = Paths.get(uploadPath, fileName).toString();
         File destinationFile = new File(filePath);
         try {

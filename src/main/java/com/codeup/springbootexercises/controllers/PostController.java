@@ -73,6 +73,7 @@ public class PostController {
             return "posts/create";
         }
         post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        postDao.save(post);
         fileUploadService.uploadFile(uploadedFile, post, model);
         postDao.save(post);
         emailService.prepareAndSend(post, "Post Created", "" +
