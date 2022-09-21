@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,7 +29,6 @@ public class PostController {
     @GetMapping("/posts")
     public String postsIndex(Model model) {
         List<Post> posts = postDao.findAll();
-        System.out.println(posts);
         model.addAttribute("posts", posts);
         return "posts/index";
     }
@@ -72,7 +72,7 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPost(@ModelAttribute Post post) {
-        post.setUser(userDao.getById(Long.parseLong("1")));
+        post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDao.save(post);
         emailService.prepareAndSend(post, "Post Edited", "" +
                 "Your post has been successfully edited." +
@@ -85,5 +85,18 @@ public class PostController {
         return ("redirect:/posts/" + post.getId());
     }
 
+    @GetMapping("/posts/{id}/delete")
+    public String showDeletePost(@PathVariable Long id, Model model) {
+        Post post = postDao.getById(id);
+        model.addAttribute("post", post);
+        return"/posts/delete";
+    }
 
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@ModelAttribute Post post) {
+        System.out.println("inside deletePost");
+//        post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        postDao.delete(post);
+        return("redirect:/profile/");
+    }
 }

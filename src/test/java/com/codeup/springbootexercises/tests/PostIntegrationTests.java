@@ -126,12 +126,12 @@ public class PostIntegrationTests {
         this.mvc.perform(
                 post("/posts/create").with(csrf())
                         .session((MockHttpSession) httpSession)
-                        .param("title", "post to be deleted")
+                        .param("title", "post to be deleted for this test")
                         .param("body", "body of post to be deleted"))
                 .andExpect(status().is3xxRedirection())
         ;
 
-        Post existingPost = postDao.findByTitle("post to be deleted");
+        Post existingPost = postDao.findByTitle("post to be deleted for this test");
 
         this.mvc.perform(
                 post("/posts/" + existingPost.getId() + "/delete").with(csrf())
