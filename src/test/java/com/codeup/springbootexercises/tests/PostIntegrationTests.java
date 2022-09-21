@@ -119,7 +119,26 @@ public class PostIntegrationTests {
                 .andExpect(content().string(containsString("edited title")))
                 .andExpect(content().string(containsString("edited body")))
         ;
+    }
 
+    @Test
+    public void testDeletePost() throws Exception {
+        this.mvc.perform(
+                post("/posts/create").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("title", "post to be deleted")
+                        .param("body", "body of post to be deleted"))
+                .andExpect(status().is3xxRedirection())
+        ;
+
+        Post existingPost = postDao.findByTitle("post to be deleted");
+
+        this.mvc.perform(
+                post("/posts/" + existingPost.getId() + "/delete").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("id", String.valueOf(existingPost.getId())))
+                .andExpect(status().is3xxRedirection())
+        ;
 
     }
 }
