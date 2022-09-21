@@ -10,23 +10,7 @@
 
 <!--Container holding the post cards-->
 <div class="container">
-    <div class="row row-cols-2">
-
-<!--        Calling each post in posts and making their own cards, in 2 columns-->
-        <div th:each="post : ${posts}" class="col">
-            <div class="card mb-3" style="background-color: #6e6e6e">
-                <div class="card-body">
-                    <h2 class="text-center bg-dark text-light rounded p-3">
-                        <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.title}"></a>
-                    </h2>
-                    <p style="white-space: pre-line" th:text="${post.body}" class="card-text bg-dark text-light rounded p-3"></p>
-                    <a href="#" class="card-link" th:text="${post.user.username}"></a>
-                    <a th:href="@{/posts/{id}/edit (id=${post.id})}">Edit Post</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <div th:replace="fragments :: postIndex" />
 </div>
 
 <footer th:replace="fragments :: footer" />

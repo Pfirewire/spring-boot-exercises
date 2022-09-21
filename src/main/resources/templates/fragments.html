@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--Head Fragment-->
 <head th:fragment="head">
@@ -74,6 +75,34 @@
     <textarea class="form-control mb-3 bg-dark text-light" th:field="*{body}" rows="12" placeholder="Enter the body of your post here" ></textarea>
     <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}" />
     <button type="submit" class="btn btn-dark">Submit</button>
+</div>
+
+<!--Post Index Fragment-->
+<div class="row row-cols-2" th:fragment="postIndex">
+
+    <!--        Calling each post in posts and making their own cards, in 2 columns-->
+    <div th:each="post : ${posts}" class="col">
+        <div class="card mb-3" style="background-color: #6e6e6e">
+            <div class="card-body">
+                <h2 class="text-center bg-dark text-light rounded p-3">
+                    <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.title}"></a>
+                </h2>
+                <p style="white-space: pre-line" th:text="${post.body}" class="card-text bg-dark text-light rounded p-3"></p>
+                <a href="#" class="card-link" th:text="${post.user.username}"></a>
+                <span sec:authorize="isAuthenticated()">
+                    <span th:if="${post.getUserId() == #authentication.principal.id}">
+                        <a th:href="@{/posts/{id}/edit (id=${post.id})}">Edit Post</a>
+                    </span>
+                </span>
+                <span sec:authorize="isAuthenticated()">
+                    <span th:if="${post.getUserId() == #authentication.principal.id}">
+                        <a th:href="@{/posts/{id}/delete (id=${post.id})}">Delete Post</a>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!--Footer Fragment-->
