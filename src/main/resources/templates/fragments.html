@@ -62,12 +62,28 @@
     </header>
 
 <!--Show Post Fragment-->
-<div class="card" style="background-color: #6e6e6e"  th:fragment="showSinglePost">
+<div class="card mb-3" style="background-color: #6e6e6e"  th:fragment="showSinglePost">
     <div class="card-body">
-        <h2 th:text="${post.title}" class="text-center bg-dark text-light rounded p-3"></h2>
+        <h2 class="text-center bg-dark text-light rounded p-3">
+            <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.title}"></a>
+        </h2>
         <p style="white-space: pre-line" th:text="${post.body}" class="card-text bg-dark text-light rounded p-3"></p>
-        <a href="#" class="card-link" th:text="${post.user.email}"></a>
-        <a th:href="@{/posts/{id}/edit (id=${post.id})}">Edit Post</a>
+        <a href="#" class="card-link" th:text="${post.user.username}"></a>
+        <!--                Checking to see if user is authenticated, and if so if user id matches post's user id-->
+        <span sec:authorize="isAuthenticated()">
+                    <span th:if="${post.getUserId() == #authentication.principal.id}">
+                        <a th:href="@{/posts/{id}/edit (id=${post.id})}">Edit Post</a>
+                    </span>
+                </span>
+        <!--                Checking to see if user is authenticated, and if so if user id matches post's user id-->
+        <span sec:authorize="isAuthenticated()">
+                    <span th:if="${post.getUserId() == #authentication.principal.id}">
+                        <a th:href="@{/posts/{id}/delete (id=${post.id})}">Delete Post</a>
+                    </span>
+                </span>
+        <div style="height: 50px; width: 50px;">
+            <img th:src="@{${'/' + post.filename}}" style="max-width: 100%; max-height: 100%;">
+        </div>
     </div>
 </div>
 
@@ -85,27 +101,7 @@
     <div class="row row-cols-2">
 <!--    Calling each post in posts and making their own cards, in 2 columns-->
         <div th:each="post : ${posts}" class="col">
-            <div class="card mb-3" style="background-color: #6e6e6e">
-                <div class="card-body">
-                    <h2 class="text-center bg-dark text-light rounded p-3">
-                        <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.title}"></a>
-                    </h2>
-                    <p style="white-space: pre-line" th:text="${post.body}" class="card-text bg-dark text-light rounded p-3"></p>
-                    <a href="#" class="card-link" th:text="${post.user.username}"></a>
-<!--                Checking to see if user is authenticated, and if so if user id matches post's user id-->
-                    <span sec:authorize="isAuthenticated()">
-                        <span th:if="${post.getUserId() == #authentication.principal.id}">
-                            <a th:href="@{/posts/{id}/edit (id=${post.id})}">Edit Post</a>
-                        </span>
-                    </span>
-<!--                Checking to see if user is authenticated, and if so if user id matches post's user id-->
-                    <span sec:authorize="isAuthenticated()">
-                        <span th:if="${post.getUserId() == #authentication.principal.id}">
-                            <a th:href="@{/posts/{id}/delete (id=${post.id})}">Delete Post</a>
-                        </span>
-                    </span>
-                </div>
-            </div>
+            <div th:replace="fragments :: showSinglePost" />
         </div>
     </div>
 </div>

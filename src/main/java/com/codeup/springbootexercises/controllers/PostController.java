@@ -5,11 +5,13 @@ import com.codeup.springbootexercises.services.EmailService;
 import com.codeup.springbootexercises.repositories.PostRepository;
 import com.codeup.springbootexercises.repositories.UserRepository;
 import com.codeup.springbootexercises.models.Post;
+import com.codeup.springbootexercises.services.FileUploadService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -21,11 +23,18 @@ public class PostController {
     private final PostRepository postDao;
     private final UserRepository userDao;
     private final EmailService emailService;
+    private final FileUploadService fileUploadService;
 
-    public PostController(PostRepository postDao, UserRepository userDao, EmailService emailService) {
+    public PostController(
+            PostRepository postDao,
+            UserRepository userDao,
+            EmailService emailService,
+            FileUploadService fileUploadService)
+    {
         this.postDao = postDao;
         this.userDao = userDao;
         this.emailService = emailService;
+        this.fileUploadService = fileUploadService;
     }
 
     @GetMapping("/posts")
@@ -52,13 +61,19 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute @Valid Post post, Errors validation, Model model) {
+    public String createPost(
+            @ModelAttribute @Valid Post post,
+            @RequestParam(name = "file") MultipartFile uploadedFile,
+            Errors validation,
+            Model model)
+    {
         if(validation.hasErrors()) {
             model.addAttribute("errors", validation);
             model.addAttribute("post", post);
             return "posts/create";
         }
         post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        fileUploadService.uploadFile(uploadedFile, post, model);
         postDao.save(post);
         emailService.prepareAndSend(post, "Post Created", "" +
                 "A new post has been successfully created" +

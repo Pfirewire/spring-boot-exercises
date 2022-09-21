@@ -2,6 +2,7 @@ package com.codeup.springbootexercises.models;
 
 import com.codeup.springbootexercises.models.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.*;
 
@@ -30,6 +31,9 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column
+    private String filename;
+
 
     // constructor functions
     public Post() {}
@@ -54,5 +58,7 @@ public class Post {
 
     public Long getUserId() { return this.user.getId(); }
 
+    public String getFilename() { return this.filename; }
+    public void setFilename(String filename) { this.filename = filename; }
 
 }
