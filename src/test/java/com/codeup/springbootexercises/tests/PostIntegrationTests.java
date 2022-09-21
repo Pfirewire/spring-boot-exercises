@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -69,6 +70,16 @@ public class PostIntegrationTests {
     }
 
     @Test
+    public void testShowPost() throws Exception {
+        Post existingPost = postDao.findAll().get(0);
+
+        this.mvc.perform(get("/posts/" + existingPost.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(existingPost.getBody())))
+        ;
+    }
+
+    @Test
     public void testPostIndex() throws Exception {
         Post existingPost = postDao.findAll().get(0);
         Post secondExistingPost = postDao.findAll().get(1);
@@ -77,6 +88,17 @@ public class PostIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(existingPost.getTitle())))
                 .andExpect(content().string(containsString(secondExistingPost.getTitle())))
+        ;
+    }
+
+    @Test
+    public void testCreatePost() throws Exception {
+        this.mvc.perform(
+                post("/posts/create").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("title", "test")
+                        .param("body", "post body"))
+                .andExpect(status().is3xxRedirection())
         ;
     }
 }
