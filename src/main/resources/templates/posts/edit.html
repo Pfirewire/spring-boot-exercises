@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments :: head">
-    <meta charset="UTF-8">
-    <title id="pageTitle">Edit Ad</title>
+<head>
+    <div th:replace="fragments :: metaTags" />
+
+    <title>Edit Ad</title>
+
+    <div th:replace="fragments :: links" />
 </head>
 <body>
 <nav th:replace="fragments :: navbar" />
@@ -17,6 +20,6 @@
     </div>
 </main>
 
-<footer th:replace="fragments :: footer" />
+<div th:replace="fragments :: scripts" />
 </body>
 </html>
