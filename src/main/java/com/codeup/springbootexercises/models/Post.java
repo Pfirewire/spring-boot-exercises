@@ -1,8 +1,10 @@
 package com.codeup.springbootexercises.models;
 
 import com.codeup.springbootexercises.models.User;
+import javax.validation.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name="posts")
@@ -13,8 +15,12 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank(message = "Post must have a title")
+    @Size(min = 3, message = "Title must be at least 3 characters")
     @Column(nullable = false)
     private String title;
+    @NotBlank(message = "Post must have something in the body")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
     @ManyToOne

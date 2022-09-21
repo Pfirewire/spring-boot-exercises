@@ -8,8 +8,10 @@ import com.codeup.springbootexercises.models.Post;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +52,12 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post post) {
+    public String createPost(@ModelAttribute @Valid Post post, Errors validation, Model model) {
+        if(validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/create";
+        }
         post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDao.save(post);
         emailService.prepareAndSend(post, "Post Created", "" +

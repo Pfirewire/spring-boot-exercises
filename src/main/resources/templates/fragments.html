@@ -70,7 +70,9 @@
 <!--Post Form Fragment-->
 <div class="form-group" th:fragment="postForm">
     <input class="form-control mb-3 bg-dark text-light" id="postTitle" th:field="*{title}" type="text">
+    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
     <textarea class="form-control mb-3 bg-dark text-light" th:field="*{body}" rows="12" placeholder="Enter the body of your post here" ></textarea>
+    <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}" />
     <button type="submit" class="btn btn-dark">Submit</button>
 </div>
 
