@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+
 <!--Meta Tags Fragment-->
 <div th:fragment="metaTags" th:remove="tag">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,20 +18,6 @@
     <link rel="shortcut icon" type="images/png" th:href="@{/megamanicon.png}">
 </div>
 
-<!--Head Fragment-->
-<!--<head th:fragment="head">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <meta charset="UTF-8">-->
-
-
-<!--    &lt;!&ndash; Bootstrap &ndash;&gt;-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">-->
-<!--    &lt;!&ndash; Bootstrap Icons &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">-->
-<!--    <title th:include=":: #pageTitle">Fragments Title</title>-->
-<!--    <link rel="shortcut icon" type="images/png" th:href="@{/megamanicon.png}">-->
-
-<!--</head>-->
 </head>
 <body>
 
@@ -123,16 +110,12 @@
     </div>
 </div>
 
-<!--Footer Fragment-->
-<!--    <footer th:fragment="footer">-->
-<!--        &lt;!&ndash; Bootstrap JS Bundle with Popper &ndash;&gt;-->
-<!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
-<!--    </footer>-->
-
 <!--Scripts Fragment-->
 <div th:fragment="scripts" th:remove="tag">
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- jQuery CDN-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </div>
 </body>
 </html>
