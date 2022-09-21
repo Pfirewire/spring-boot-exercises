@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// Security configuration for application
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -34,17 +35,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // Login configuration
             .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/posts")
                 .permitAll()
+                // Logout configuration
             .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
+                // Pages viewable without logging in
             .and()
                 .authorizeRequests()
                 .antMatchers("/", "/posts")
                 .permitAll()
+                // Pages only viewable when logged in
             .and()
                 .authorizeRequests()
                 .antMatchers(
@@ -56,5 +61,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
         ;
     }
-
 }

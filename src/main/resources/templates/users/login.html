@@ -1,3 +1,5 @@
+<!--Template for login form-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -13,13 +15,16 @@
 <header th:replace="fragments :: header" />
 
     <h1>Log In</h1>
+<!--    Div that shows user they entered invalid parameters if it receives and error-->
     <div th:if="${param.error}">
         Invalid Username and Password.
     </div>
+<!--    Div that shows message that a user has been logged out-->
     <div th:if="${param.logout}">
         You have been logged out.
     </div>
 
+<!--    Login form-->
     <form th:action="@{/login}" method="post">
         <label for="username">Username</label>
         <input id="username" name="username" type="text" />

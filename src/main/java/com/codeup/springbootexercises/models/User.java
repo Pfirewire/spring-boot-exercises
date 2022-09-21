@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-    // private variables
+    // All private variables, attached to users table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +25,7 @@ public class User {
     @JsonBackReference
     private List<Post> posts;
 
-
-    // constructor functions
+    // Constructor functions
     public User () {}
     public User (String email, String username, String password) {
         this.email = email;
@@ -41,7 +40,7 @@ public class User {
     }
 
 
-    // getters and setters
+    // Getters and Setters
     public Long getId() { return this.id; }
     public void setId(Long id) { this.id = id; }
 
@@ -55,5 +54,4 @@ public class User {
     public void setPassword(String password) { this.password = password; }
 
     public List<Post> getPosts() { return this.posts; }
-
 }

@@ -6,11 +6,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+// Model containing information for authorizing and authenticating users
 public class UserWithRoles extends User implements UserDetails {
 
-    public UserWithRoles(User user) {
-        super(user);
-    }
+    public UserWithRoles(User user) { super(user); }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

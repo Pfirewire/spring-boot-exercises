@@ -8,15 +8,18 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+// Service for sending emails
 @Service("mailService")
 public class EmailService {
 
     @Autowired
     public JavaMailSender emailSender;
 
+    // local variable for email that email service sends from
     @Value("${spring.mail.from}")
     private String from;
 
+    // Prepares and sends email with subject and body parameters
     public void prepareAndSend(Post post, String subject, String body) {
 
         SimpleMailMessage msg = new SimpleMailMessage();

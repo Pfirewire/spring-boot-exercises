@@ -20,11 +20,13 @@ import java.util.List;
 @Controller
 public class PostController {
 
+    // Repositories and Services
     private final PostRepository postDao;
     private final UserRepository userDao;
     private final EmailService emailService;
     private final FileUploadService fileUploadService;
 
+    // Constructor
     public PostController(
             PostRepository postDao,
             UserRepository userDao,
@@ -37,29 +39,37 @@ public class PostController {
         this.fileUploadService = fileUploadService;
     }
 
+    // Displays full list of all posts
     @GetMapping("/posts")
     public String postsIndex(Model model) {
+        // Sets a post list and passes it to the template
         List<Post> posts = postDao.findAll();
         model.addAttribute("posts", posts);
         return "posts/index";
     }
 
+    // Displays individual post
     @GetMapping("/posts/{id}")
     public String individualPost(@PathVariable long id, Model model) {
+        // Checks if post id exists, if not redirects to post index
         if(postDao.findById(id) == null) {
             return "redirect:/posts";
         }
+        // Sets individual post by id parameter, passes it to template
         Post post = postDao.getById(id);
         model.addAttribute("post", post);
         return "posts/show";
     }
 
+    // Displays form to create a post
     @GetMapping("/posts/create")
     public String showCreatePostForm(Model model) {
+        // Passing empty post to form
         model.addAttribute("post", new Post());
         return "posts/create";
     }
 
+    // Creates new post, uploads file, and adds row to posts table
     @PostMapping("/posts/create")
     public String createPost(
             @ModelAttribute @Valid Post post,
@@ -67,15 +77,19 @@ public class PostController {
             Errors validation,
             Model model)
     {
+        // Enforces post parameters of size and not being empty
         if(validation.hasErrors()) {
             model.addAttribute("errors", validation);
             model.addAttribute("post", post);
             return "posts/create";
         }
+
+        // Sets the user of the post to be the logged in user, uploads the file in the form, then saves post into table
         post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        postDao.save(post);
         fileUploadService.uploadFile(uploadedFile, post, model);
         postDao.save(post);
+
+        // Using emailService to send an email out of created post
         emailService.prepareAndSend(post, "Post Created", "" +
                 "A new post has been successfully created" +
                 "New Post:" +
@@ -86,22 +100,30 @@ public class PostController {
         return "redirect:/posts";
     }
 
+    // Shows form to edit a post
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model model) {
+        // Setting post by id in URL path and passes it to template
         Post post = postDao.getById(id);
         model.addAttribute("post", post);
         return "posts/edit";
     }
 
+    // Takes changes to post and alters posts table
     @PostMapping("/posts/{id}/edit")
     public String editPost(@ModelAttribute @Valid Post post, Errors validation, Model model) {
+        // Enforces post parameters of size and not being empty
         if(validation.hasErrors()) {
             model.addAttribute("errors", validation);
             model.addAttribute("post", post);
             return "/posts/edit";
         }
+
+        // Sets post user by who is logged in at the time
         post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDao.save(post);
+
+        // Using emailService to send email of edited post
         emailService.prepareAndSend(post, "Post Edited", "" +
                 "Your post has been successfully edited." +
                 "\n" +
@@ -113,27 +135,31 @@ public class PostController {
         return ("redirect:/posts/" + post.getId());
     }
 
+    // Shows form to delete a post
     @GetMapping("/posts/{id}/delete")
     public String showDeletePost(@PathVariable Long id, Model model) {
+        // Sets post by id in URL path, sends post to template
         Post post = postDao.getById(id);
         model.addAttribute("post", post);
         return"/posts/delete";
     }
 
+    // Removes post
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@ModelAttribute Post post) {
-        System.out.println("inside deletePost");
-//        post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDao.delete(post);
         return("redirect:/profile/");
     }
 
+    // Views all posts in JSON format
     @GetMapping("/posts.json")
     public @ResponseBody List<Post> viewAllPostsInJSONFormat() {
+        // Creating posts list and returning
         List<Post> posts = postDao.findAll();
         return posts;
     }
 
+    // Views all posts with Ajax
     @GetMapping("/posts/ajax")
     public String viewAllPostsWithAjax() {
         return "posts/ajax";

@@ -1,3 +1,6 @@
+// Using javascript and ajax to take a json string and output html for viewing all posts
+// This is very rudimentary and would have to be expanded upon with stying to be useful
+
 $(() => {
     let request = $.ajax({'url': '/posts.json'});
     request.done(posts => {

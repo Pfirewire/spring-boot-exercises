@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 public class Post {
 
 
-    // private variables
+    // All private variables, attached to posts table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -35,7 +35,7 @@ public class Post {
     private String filename;
 
 
-    // constructor functions
+    // Constructor functions
     public Post() {}
     public Post(String title, String body) {
         this.title = title;
@@ -43,7 +43,7 @@ public class Post {
     }
 
 
-    // getters and setters
+    // Getters and Setters
     public Long getId() { return this.id; }
     public void setId(Long id) { this.id = id; }
 
