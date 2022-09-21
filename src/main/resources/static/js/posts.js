@@ -1,5 +1,4 @@
 $(() => {
-    console.log("inside posts.js");
     let request = $.ajax({'url': '/posts.json'});
     request.done(posts => {
         let html = '';

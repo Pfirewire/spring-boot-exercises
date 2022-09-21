@@ -120,7 +120,6 @@ public class PostController {
 
     @GetMapping("/posts/ajax")
     public String viewAllPostsWithAjax() {
-        System.out.println("inside viewAllPostsWithAjax");
         return "posts/ajax";
     }
 }
