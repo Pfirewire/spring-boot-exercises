@@ -78,7 +78,12 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(@ModelAttribute Post post) {
+    public String editPost(@ModelAttribute @Valid Post post, Errors validation, Model model) {
+        if(validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "/posts/edit";
+        }
         post.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDao.save(post);
         emailService.prepareAndSend(post, "Post Edited", "" +
