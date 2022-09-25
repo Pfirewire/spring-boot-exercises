@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.codeup</groupId>
     <artifactId>spring-boot-exercises</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1.1-SNAPSHOT</version>
     <name>spring-boot-exercises</name>
     <description>spring-boot-exercises</description>
     <packaging>jar</packaging>

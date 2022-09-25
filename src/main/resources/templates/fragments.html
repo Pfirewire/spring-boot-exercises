@@ -70,14 +70,14 @@
         <hr>
     </header>
 
-<!--Show Post Fragment-->
+<!--Show Single Post Fragment-->
 <div class="card mb-3" style="background-color: #6e6e6e"  th:fragment="showSinglePost">
     <div class="card-body">
         <h2 class="text-center bg-dark text-light rounded p-3">
             <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.title}"></a>
         </h2>
         <p style="white-space: pre-line" th:text="${post.body}" class="card-text bg-dark text-light rounded p-3"></p>
-        <a href="#" class="card-link" th:text="${post.user.username}"></a>
+        <a th:href="@{/users/{id} (id=${post.user.id})}" class="card-link" th:text="${post.user.username}"></a>
         <!--                Checking to see if user is authenticated, and if so if user id matches post's user id-->
         <span sec:authorize="isAuthenticated()">
                     <span th:if="${post.getUserId() == #authentication.principal.id}">
@@ -107,7 +107,7 @@
 
 <!--Post Index Fragment-->
 <div class="container" th:fragment="postIndex">
-    <div class="row row-cols-2" data-masonry='{"percentPosition": true }'>
+    <div class="row row-cols-md-2" data-masonry='{"percentPosition": true }'>
 <!--    Calling each post in posts and making their own cards, in 2 columns-->
         <div th:each="post : ${posts}" class="col">
             <div th:replace="fragments :: showSinglePost" />

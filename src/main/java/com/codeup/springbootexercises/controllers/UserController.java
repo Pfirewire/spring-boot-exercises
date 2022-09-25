@@ -76,4 +76,25 @@ public class UserController {
         model.addAttribute("posts", userPosts);
         return "/users/profile";
     }
+
+    @GetMapping("/users/{id}")
+    public String showSingleUserPosts(@PathVariable Long id, Model model) {
+        // Creating a list of all posts and empty post to populate
+        List<Post> allPosts = postDao.findAll();
+        List<Post> userPosts = new ArrayList<>();
+
+        // Setting user to currently logged in user
+        User user = userDao.getById(id);
+
+        // Iterates through all posts and adds to new list if created by logged in user
+        for (Post post : allPosts) {
+            if (Objects.equals(post.getUserId(), user.getId())) {
+                userPosts.add(post);
+            }
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("posts", userPosts);
+        return "users/profile";
+    }
+
 }
